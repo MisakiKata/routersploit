@@ -46,6 +46,24 @@ python3 -m pip install bluepy
 python3 rsf.py
 ```
 
+## Installation on Ubuntu 20.04
+
+```
+sudo apt-get install git python3-pip
+git clone https://github.com/threat9/routersploit
+cd routersploit
+python3 -m pip install -r requirements.txt
+python3 rsf.py
+```
+
+Bluetooth Low Enery support:
+
+```
+sudo apt-get install libglib2.0-dev
+python3 -m pip install bluepy
+python3 rsf.py
+```
+
 ## Installation on Ubuntu 18.04 & 17.10
 
 ```
@@ -53,6 +71,7 @@ sudo add-apt-repository universe
 sudo apt-get install git python3-pip
 git clone https://www.github.com/threat9/routersploit
 cd routersploit
+python3 -m pip install setuptools
 python3 -m pip install -r requirements.txt
 python3 rsf.py
 ```
@@ -92,7 +111,23 @@ cd routersploit
 git pull
 ```
 
+# Build your own
+To our surprise people started to fork 
+[routersploit](https://github.com/threat9/routersploit) not because they were 
+interested in the security of embedded devices but simply because they want to 
+leverage our interactive shell logic and build their own tools using similar 
+concept. All these years they must have said: _"There must be a better way!"_ 
+and they were completely right, the better way is called 
+[_Riposte_](https://github.com/fwkz/riposte).
+
+[_Riposte_](https://github.com/fwkz/riposte) allows you to easily wrap your 
+application inside a tailored interactive shell. Common chores regarding 
+building REPLs was factored out and being taken care of so you can really 
+focus on specific domain logic of your application.
 # License
 
 The RouterSploit Framework is under a BSD license.
 Please see [LICENSE](LICENSE) for more details.
+
+# Acknowledgments
+* [riposte](https://github.com/fwkz/riposte)

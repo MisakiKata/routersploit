@@ -27,8 +27,8 @@ class Exploit(HTTPClient):
 
     path = OptString("/", "URL Path")
 
-    verbosity = OptBool(True, "Display authentication attempts")
     stop_on_success = OptBool(True, "Stop on first valid authentication attempt")
+    verbosity = OptBool(True, "Display authentication attempts")
 
     def run(self):
         self.credentials = []
@@ -56,7 +56,7 @@ class Exploit(HTTPClient):
     def target_function(self, running, data):
         while running.is_set():
             try:
-                username, password = data.next().split(":")
+                username, password = data.next().split(":", 1)
 
                 if self.auth_type == "digest":
                     auth = HTTPDigestAuth(username, password)
